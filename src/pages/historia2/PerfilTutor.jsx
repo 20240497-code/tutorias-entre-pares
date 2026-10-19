@@ -64,6 +64,11 @@ export default function PerfilTutor() {
           </div>
         </div>
 
+        {/* Enlace a la Historia 5 (5.4 Resumen de horas) */}
+        <div className="flex justify-end -mt-2 mb-6">
+          <Link to="/resumen-horas" className="text-[15px] font-semibold text-primary hover:underline">Ver resumen de horas →</Link>
+        </div>
+
         {/* Requisitos */}
         <section className="bg-surface border border-border rounded-lg shadow-card p-6">
           <h2 className="text-base font-semibold mb-4">Requisitos para mantener la ficha publicada</h2>

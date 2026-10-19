@@ -37,16 +37,18 @@ Programación Web · Universidad de Lima · Tema 4
 | :---: | --- | --- | :---: |
 | 1 | Cuenta y acceso | Rodrigo | ✅ Completa |
 | 2 | Ficha y disponibilidad del tutor | Rodrigo | ✅ Completa |
-| 3 | Directorio de tutores | NOMBRE | ⏳ Pendiente |
-| 4 | Agenda de sesiones | NOMBRE | ⏳ Pendiente |
-| 5 | Desarrollo y cierre | NOMBRE | ⏳ Pendiente |
+| 3 | Directorio de tutores | NOMBRE | ✅ Integrada |
+| 4 | Agenda de sesiones | NOMBRE | ✅ Integrada |
+| 5 | Desarrollo y cierre | NOMBRE | ✅ Integrada |
 | 6 | Valoraciones | NOMBRE | ⏳ Pendiente |
 | 7 | Panel del coordinador | NOMBRE | ⏳ Pendiente |
 
-> ✅ Completa · 🚧 En progreso · ⏳ Pendiente
+> ✅ Completa / integrada · 🚧 En progreso · ⏳ Pendiente
+
+Las historias integradas están **conectadas entre sí**: los menús y botones llevan a las pantallas de las otras historias (por ejemplo, *Detalle de la sesión* → *Cerrar sesión* de la Historia 5).
 
 <details>
-<summary><b>Ver detalle de pantallas de las Historias 1 y 2</b></summary>
+<summary><b>Ver detalle de pantallas y rutas</b></summary>
 
 ### Historia 1 · Cuenta y acceso
 
@@ -68,6 +70,35 @@ Programación Web · Universidad de Lima · Tema 4
 | 2.3 Disponibilidad semanal | — | `/tutor/disponibilidad` |
 | 2.4 Excepciones por fecha | — | `/tutor/disponibilidad/excepciones` |
 | 2.5 Ficha pública del tutor | — | `/tutores/camila-quispe` |
+
+### Historia 3 · Directorio de tutores
+
+| Pantalla | Ruta |
+| --- | --- |
+| 3.1 Directorio con resultados | `/directorio` |
+| 3.2 Detalle del tutor con selección de bloque | `/tutor` |
+| 3.3 Tutor sin bloques libres | `/tutor-sin-horarios` |
+
+### Historia 4 · Agenda de sesiones
+
+| Pantalla | Ruta |
+| --- | --- |
+| 4.1 Modal de solicitud | `/solicitar-sesion` |
+| 4.2 Mis sesiones | `/mis-sesiones` |
+| 4.3 Solicitudes recibidas | `/solicitudes` |
+| 4.4 Modal · proponer horario alternativo | `/proponer-horario` |
+| 4.5 Detalle de la sesión | `/detalle-sesion` |
+
+### Historia 5 · Desarrollo y cierre
+
+| Pantalla | Ruta |
+| --- | --- |
+| 5.1 Cierre de la sesión | `/cierre-sesion` |
+| 5.2 Material compartido | `/material-compartido` |
+| 5.3 Historial de sesiones | `/historial-sesiones` |
+| 5.4 Resumen de horas | `/resumen-horas` |
+
+> En la Historia 5, el conmutador **Estudiante / Tutor** cambia la vista dentro de la misma pantalla.
 
 </details>
 
@@ -93,11 +124,18 @@ src/
 ├── App.jsx              rutas de toda la app
 ├── App.css              Tailwind + colores del sistema de diseño
 ├── components/
-│   ├── compartidos/     headers y footer (los usan todas las historias)
-│   └── historiaN/       componentes propios de cada historia
+│   ├── compartidos/     headers y footer de las Historias 1 y 2
+│   ├── historia1/       modal de cuenta creada
+│   ├── historia2/       estado vacío y pestañas de disponibilidad
+│   ├── historias3y4/    Comunes.jsx (marco, cabecera, calendario…) de las Historias 3 y 4
+│   └── historia5/       Comunes.jsx de la Historia 5 + RolCompartido.jsx (rol Estudiante / Tutor)
 └── pages/
-    ├── MapaRutas.jsx    índice de pantallas
-    └── historiaN/       páginas de cada historia
+    ├── MapaRutas.jsx    índice de todas las pantallas
+    ├── historia1/       13 páginas
+    ├── historia2/       8 páginas
+    ├── historia3/       Historia3.jsx (3 pantallas)
+    ├── historia4/       Historia4.jsx (5 pantallas)
+    └── historia5/       4 páginas
 ```
 
 ---
@@ -105,10 +143,10 @@ src/
 ## 🤝 Reglas para integrar
 
 1. Trabaja solo en `pages/historiaN/` y `components/historiaN/`.
-2. Usa los headers y el `Footer` de `components/compartidos/`; no crees otros.
-3. Agrega tus rutas en `App.jsx` **antes** de la ruta `*` (404).
-4. Agrega tu historia en `pages/MapaRutas.jsx`.
-5. Usa los colores del tema (`bg-primary`, `text-text-muted`…), no códigos hex.
+2. Agrega tus rutas en `App.jsx` **antes** de la ruta `*` (404).
+3. Agrega tu historia en `pages/MapaRutas.jsx`.
+4. Si un botón lleva a otra historia, usa su ruta de las tablas de arriba (por ejemplo, `/directorio` o `/mis-sesiones`).
+5. Rutas que ya esperan a la Historia 6: `/mis-calificaciones` y `/tutores/camila-quispe/resenas`.
 
 ---
 

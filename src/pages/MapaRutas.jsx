@@ -45,7 +45,40 @@ export default function MapaRutas() {
           </ul>
         </section>
 
-        {/* Historias 3 a 7: las agregan los demás integrantes */}
+        {/* ===== Historia 3 ===== */}
+        <section className="bg-surface border border-border rounded-lg shadow-card p-6">
+          <h2 className="text-xl font-bold mb-4">Historia 3 · Directorio de tutores</h2>
+          <ul className="flex flex-col gap-2 text-[15px]">
+            <li><Link to="/directorio" className="text-primary font-semibold hover:underline">3.1 Directorio con resultados</Link></li>
+            <li><Link to="/tutor" className="text-primary font-semibold hover:underline">3.2 Detalle del tutor con selección de bloque</Link></li>
+            <li><Link to="/tutor-sin-horarios" className="text-primary font-semibold hover:underline">3.3 Tutor sin bloques libres</Link></li>
+          </ul>
+        </section>
+
+        {/* ===== Historia 4 ===== */}
+        <section className="bg-surface border border-border rounded-lg shadow-card p-6">
+          <h2 className="text-xl font-bold mb-4">Historia 4 · Agenda de sesiones</h2>
+          <ul className="flex flex-col gap-2 text-[15px]">
+            <li><Link to="/solicitar-sesion" className="text-primary font-semibold hover:underline">4.1 Modal de solicitud</Link></li>
+            <li><Link to="/mis-sesiones" className="text-primary font-semibold hover:underline">4.2 Mis sesiones</Link></li>
+            <li><Link to="/solicitudes" className="text-primary font-semibold hover:underline">4.3 Solicitudes recibidas</Link></li>
+            <li><Link to="/proponer-horario" className="text-primary font-semibold hover:underline">4.4 Modal · proponer horario alternativo</Link></li>
+            <li><Link to="/detalle-sesion" className="text-primary font-semibold hover:underline">4.5 Detalle de la sesión</Link></li>
+          </ul>
+        </section>
+
+        {/* ===== Historia 5 ===== */}
+        <section className="bg-surface border border-border rounded-lg shadow-card p-6">
+          <h2 className="text-xl font-bold mb-4">Historia 5 · Desarrollo y cierre</h2>
+          <ul className="flex flex-col gap-2 text-[15px]">
+            <li><Link to="/cierre-sesion" className="text-primary font-semibold hover:underline">5.1 Cierre de la sesión</Link></li>
+            <li><Link to="/material-compartido" className="text-primary font-semibold hover:underline">5.2 Material compartido</Link></li>
+            <li><Link to="/historial-sesiones" className="text-primary font-semibold hover:underline">5.3 Historial de sesiones</Link></li>
+            <li><Link to="/resumen-horas" className="text-primary font-semibold hover:underline">5.4 Resumen de horas</Link></li>
+          </ul>
+        </section>
+
+        {/* Historias 6 y 7: las agregan los demás integrantes */}
       </div>
     </div>
   );
