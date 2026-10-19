@@ -37,9 +37,9 @@ Programación Web · Universidad de Lima · Tema 4
 | :---: | --- | --- | :---: |
 | 1 | Cuenta y acceso | Rodrigo | ✅ Completa |
 | 2 | Ficha y disponibilidad del tutor | Rodrigo | ✅ Completa |
-| 3 | Directorio de tutores | NOMBRE | ✅ Integrada |
-| 4 | Agenda de sesiones | NOMBRE | ✅ Integrada |
-| 5 | Desarrollo y cierre | NOMBRE | ✅ Integrada |
+| 3 | Directorio de tutores | Gustavo | ✅ Integrada |
+| 4 | Agenda de sesiones | Gustavo | ✅ Integrada |
+| 5 | Desarrollo y cierre | Juan Diego | ✅ Integrada |
 | 6 | Valoraciones | NOMBRE | ⏳ Pendiente |
 | 7 | Panel del coordinador | NOMBRE | ⏳ Pendiente |
 
