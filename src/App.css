@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Source Sans 3", sans-serif;
+
+  --color-primary: #3B3596;
+  --color-primary-dark: #2B2670;
+  --color-primary-soft: #EAE8F7;
+  --color-accent: #E0A03A;
+  --color-bg: #FAFAFD;
+  --color-surface: #FFFFFF;
+  --color-border: #E2E1EC;
+  --color-text: #1C1B2E;
+  --color-text-muted: #6E6C82;
+  --color-success: #1E7F4D;
+  --color-warning: #B7791F;
+  --color-danger: #B4322B;
+  --color-info: #3B6FA8;
+
+  /* Sombra de tarjeta del sistema de diseño → clase "shadow-card" */
+  --shadow-card: 0 1px 4px rgba(28, 27, 46, .08);
+}
