@@ -29,6 +29,7 @@ export default function MapaRutas() {
           </ul>
         </section>
 
+
         {/* ===== Historia 2 ===== */}
         <section className="bg-surface border border-border rounded-lg shadow-card p-6">
           <h2 className="text-xl font-bold mb-4">Historia 2 · Ficha y disponibilidad del tutor</h2>
