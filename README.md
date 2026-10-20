@@ -40,12 +40,14 @@ Programación Web · Universidad de Lima · Tema 4
 | 3 | Directorio de tutores | Gustavo | ✅ Integrada |
 | 4 | Agenda de sesiones | Gustavo | ✅ Integrada |
 | 5 | Desarrollo y cierre | Juan Diego | ✅ Integrada |
-| 6 | Valoraciones | NOMBRE | ⏳ Pendiente |
-| 7 | Panel del coordinador | NOMBRE | ⏳ Pendiente |
+| 6 | Valoraciones | Yahel | ✅ Integrada |
+| 7 | Panel del coordinador | Pedro | ✅ Integrada |
 
 > ✅ Completa / integrada · 🚧 En progreso · ⏳ Pendiente
 
-Las historias integradas están **conectadas entre sí**: los menús y botones llevan a las pantallas de las otras historias (por ejemplo, *Detalle de la sesión* → *Cerrar sesión* de la Historia 5).
+**Las 7 historias están integradas y conectadas entre sí**: los menús y botones llevan a las pantallas de las otras historias (por ejemplo, *Detalle de la sesión* → *Cerrar sesión* de la Historia 5, o *Ver reseñas* → opiniones de la Historia 6).
+
+**Diseño unificado:** todas las vistas comparten la misma cabecera (blanca, 76 px de alto, 56 px de margen, sección activa subrayada; oscura en el panel del coordinador) y el mismo pie (oscuro, 84 px de alto).
 
 <details>
 <summary><b>Ver detalle de pantallas y rutas</b></summary>
@@ -100,6 +102,26 @@ Las historias integradas están **conectadas entre sí**: los menús y botones l
 
 > En la Historia 5, el conmutador **Estudiante / Tutor** cambia la vista dentro de la misma pantalla.
 
+### Historia 6 · Valoraciones
+
+| Pantalla | Ruta |
+| --- | --- |
+| 6.1 Calificar al tutor | `/calificar-sesion/:sesionId` · `/editar-calificacion/:id` |
+| 6.2 Reseñas del tutor | `/valoraciones-tutor/:tutorId` (ej. `/valoraciones-tutor/camila`) |
+| 6.3 Mis calificaciones | `/mis-calificaciones` · `?vista=pendientes` |
+| 6.4 Ranking de tutores por curso | `/ranking-tutores` |
+
+> La Historia 6 guarda las calificaciones en el navegador (`localStorage`): lo que publiques o elimines se mantiene al recargar.
+
+### Historia 7 · Panel del coordinador
+
+| Pantalla | Ruta |
+| --- | --- |
+| 7.1 Listado de tutores | `/coordinador/tutores` |
+| 7.2 Modal · suspender tutor | `/coordinador/tutores/suspender` |
+| 7.3 Gestión de usuarios | `/coordinador/usuarios` |
+| 7.4 Tablero de métricas | `/coordinador/tablero` |
+
 </details>
 
 ---
@@ -128,25 +150,32 @@ src/
 │   ├── historia1/       modal de cuenta creada
 │   ├── historia2/       estado vacío y pestañas de disponibilidad
 │   ├── historias3y4/    Comunes.jsx (marco, cabecera, calendario…) de las Historias 3 y 4
-│   └── historia5/       Comunes.jsx de la Historia 5 + RolCompartido.jsx (rol Estudiante / Tutor)
+│   ├── historia5/       Comunes.jsx + RolCompartido.jsx (rol Estudiante / Tutor)
+│   ├── historia6/       Comunes.jsx, Valoraciones.jsx + LayoutValoraciones.jsx (datos compartidos)
+│   └── historia7/       Compartidos.jsx (cabecera del coordinador) + estilos-h7.css
+├── contexto/            ValoracionesContext.jsx (Historia 6)
+├── datos/               datosHU6.js (Historia 6)
+├── servicios/           valoraciones.js (Historia 6)
 └── pages/
     ├── MapaRutas.jsx    índice de todas las pantallas
     ├── historia1/       13 páginas
     ├── historia2/       8 páginas
     ├── historia3/       Historia3.jsx (3 pantallas)
     ├── historia4/       Historia4.jsx (5 pantallas)
-    └── historia5/       4 páginas
+    ├── historia5/       4 páginas
+    ├── historia6/       4 páginas
+    └── historia7/       4 páginas
 ```
 
 ---
 
-## 🤝 Reglas para integrar
+## 🤝 Reglas para hacer cambios
 
-1. Trabaja solo en `pages/historiaN/` y `components/historiaN/`.
-2. Agrega tus rutas en `App.jsx` **antes** de la ruta `*` (404).
-3. Agrega tu historia en `pages/MapaRutas.jsx`.
-4. Si un botón lleva a otra historia, usa su ruta de las tablas de arriba (por ejemplo, `/directorio` o `/mis-sesiones`).
-5. Rutas que ya esperan a la Historia 6: `/mis-calificaciones` y `/tutores/camila-quispe/resenas`.
+1. Trabaja solo en `pages/historiaN/` y `components/historiaN/` de tu historia.
+2. Las rutas nuevas van en `App.jsx` **antes** de la ruta `*` (404), y su enlace en `pages/MapaRutas.jsx`.
+3. Si un botón lleva a otra historia, usa su ruta de las tablas de arriba (por ejemplo, `/directorio` o `/mis-sesiones`).
+4. No cambies el estilo de la cabecera ni del pie: es el mismo en todas las historias.
+5. Si tu historia necesita CSS propio, antepón una clase a cada regla (como `.h7` en la Historia 7) para no afectar a las demás.
 
 ---
 

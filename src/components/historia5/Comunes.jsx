@@ -3,62 +3,63 @@ import { Link, useLocation } from 'react-router-dom';
 export function Header({ rol, setRol }) {
   const ubicacion = useLocation();
 
+  // Mismo diseño de cabecera que el resto del proyecto (76 px, 56 px de margen, activo subrayado)
+  const enlaceBase = 'h-full flex items-center border-b-2 border-transparent text-[15px] text-text-muted hover:text-text';
   const obtenerLink = (path) =>
-    `text-xs font-medium transition-colors ${
-      ubicacion.pathname === path
-        ? 'text-indigo-900 font-bold border-b-2 border-indigo-900 pb-4'
-        : 'text-slate-500 hover:text-slate-800'
-    }`;
+    ubicacion.pathname === path
+      ? 'h-full flex items-center border-b-2 border-primary text-[15px] text-primary font-semibold'
+      : enlaceBase;
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center space-x-8">
-          <Link to={rol === 'tutor' ? '/tutor/perfil' : '/directorio'} className="text-indigo-900 font-bold text-sm tracking-tight">
-            Tutorías entre pares
-          </Link>
+    <header className="h-19 px-14 shrink-0 flex items-center justify-between bg-surface border-b border-border sticky top-0 z-10">
+      <div className="flex items-center gap-10 h-full">
+        <Link to={rol === 'tutor' ? '/tutor/perfil' : '/directorio'} className="text-xl font-bold text-primary whitespace-nowrap">
+          Tutorías entre pares
+        </Link>
 
-          {rol === 'tutor' ? (
-            <nav className="hidden md:flex space-x-6 items-center">
-              <Link to="/tutor/perfil" className={obtenerLink('/resumen-horas')}>Mi perfil de tutor</Link>
-              <Link to="/tutor/cursos" className="text-xs text-slate-500 hover:text-slate-800">Mis cursos</Link>
-              <Link to="/tutor/disponibilidad" className="text-xs text-slate-500 hover:text-slate-800">Disponibilidad</Link>
-              <Link to="/solicitudes" className="text-xs text-slate-500 hover:text-slate-800">Solicitudes</Link>
-              <Link to="/historial-sesiones" className={obtenerLink('/historial-sesiones')}>Mis sesiones</Link>
-            </nav>
-          ) : (
-            <nav className="hidden md:flex space-x-6 items-center">
-              <Link to="/directorio" className="text-xs text-slate-500 hover:text-slate-800">Directorio</Link>
-              <Link to="/mis-sesiones" className={obtenerLink('/historial-sesiones')}>Mis sesiones</Link>
-              <Link to="/mis-calificaciones" className="text-xs text-slate-500 hover:text-slate-800">Mis calificaciones</Link>
-            </nav>
-          )}
+        {rol === 'tutor' ? (
+          <nav className="flex items-center gap-8 h-full">
+            <Link to="/tutor/perfil" className={obtenerLink('/resumen-horas')}>Mi perfil de tutor</Link>
+            <Link to="/tutor/cursos" className={enlaceBase}>Mis cursos</Link>
+            <Link to="/tutor/disponibilidad" className={enlaceBase}>Disponibilidad</Link>
+            <Link to="/solicitudes" className={enlaceBase}>Solicitudes</Link>
+            <Link to="/historial-sesiones" className={obtenerLink('/historial-sesiones')}>Mis sesiones</Link>
+          </nav>
+        ) : (
+          <nav className="flex items-center gap-8 h-full">
+            <Link to="/directorio" className={enlaceBase}>Directorio</Link>
+            <Link to="/mis-sesiones" className={obtenerLink('/historial-sesiones')}>Mis sesiones</Link>
+            <Link to="/mis-calificaciones" className={enlaceBase}>Mis calificaciones</Link>
+          </nav>
+        )}
+      </div>
+
+      <div className="flex items-center gap-6 h-full">
+        <div className="flex bg-primary-soft rounded-full p-1 text-sm font-semibold">
+          <button
+            type="button"
+            onClick={() => setRol && setRol('estudiante')}
+            className={`px-4 py-1 rounded-full transition-all ${
+              rol === 'estudiante' ? 'bg-primary text-white' : 'text-primary hover:bg-surface'
+            }`}
+          >
+            Estudiante
+          </button>
+          <button
+            type="button"
+            onClick={() => setRol && setRol('tutor')}
+            className={`px-4 py-1 rounded-full transition-all ${
+              rol === 'tutor' ? 'bg-primary text-white' : 'text-primary hover:bg-surface'
+            }`}
+          >
+            Tutor
+          </button>
         </div>
-
-        <div className="flex items-center space-x-3">
-          <div className="flex rounded-full bg-slate-100 p-0.5 text-[11px] font-semibold">
-            <button
-              type="button"
-              onClick={() => setRol && setRol('estudiante')}
-              className={`px-3 py-1 rounded-full transition-all ${
-                rol === 'estudiante' ? 'bg-indigo-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              Estudiante
-            </button>
-            <button
-              type="button"
-              onClick={() => setRol && setRol('tutor')}
-              className={`px-3 py-1 rounded-full transition-all ${
-                rol === 'tutor' ? 'bg-emerald-700 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              Tutor
-            </button>
-          </div>
-          <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-900 flex items-center justify-center font-bold text-xs border border-indigo-100">
+        <div className="flex items-center gap-2">
+          <span className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold">
             SR
-          </div>
+          </span>
+          <span className="text-[15px] text-text">Sebastián R. ▾</span>
         </div>
       </div>
     </header>
@@ -67,14 +68,12 @@ export function Header({ rol, setRol }) {
 
 export function Footer() {
   return (
-    <footer className="bg-[#1B192A] text-slate-400 py-6 px-6 text-xs mt-auto">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-        <p>Programa de Tutorías entre Pares · Universidad de Lima</p>
-        <div className="flex space-x-6 text-[11px]">
-          <a href="#" className="hover:text-white">Guía del tutor</a>
-          <a href="/#preguntas-frecuentes" className="hover:text-white">Ayuda</a>
-          <a href="mailto:tutorias@ulima.edu.pe" className="hover:text-white">tutorias@ulima.edu.pe</a>
-        </div>
+    <footer className="h-21 px-14 shrink-0 flex items-center justify-between bg-ink text-[13px] text-white/75 mt-auto">
+      <p>Programa de Tutorías entre Pares · Universidad de Lima</p>
+      <div className="flex items-center gap-8">
+        <a href="#" className="hover:text-white">Guía del tutor</a>
+        <a href="/#preguntas-frecuentes" className="hover:text-white">Ayuda</a>
+        <a href="mailto:tutorias@ulima.edu.pe" className="hover:text-white">tutorias@ulima.edu.pe</a>
       </div>
     </footer>
   );
@@ -85,7 +84,7 @@ export default function Diseño({ children, rol, setRol }) {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 text-slate-800 font-sans antialiased">
       <Header rol={rol} setRol={setRol} />
-      <main className="flex-1 max-w-7xl mx-auto px-6 py-8 w-full">{children}</main>
+      <main className="flex-1 px-14 py-8 w-full">{children}</main>
       <Footer />
     </div>
   );

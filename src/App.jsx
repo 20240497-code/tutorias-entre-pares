@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import "./App.css"
 
 import MapaRutas from "./pages/MapaRutas"
@@ -37,6 +37,13 @@ import { SolicitarSesion, MisSesiones, Solicitudes, ProponerHorario, DetalleSesi
 // Historia 5 · Desarrollo y cierre
 import { CierreSesion, MaterialCompartido, HistorialSesiones, ResumenHoras } from "./pages/historia5/Historia5"
 import { LayoutRol, ConRol } from "./components/historia5/RolCompartido"
+
+// Historia 6 · Valoraciones
+import { MisCalificaciones, CalificarSesion, ValoracionesTutor, RankingTutores } from "./pages/historia6/Historia6"
+import LayoutValoraciones from "./components/historia6/LayoutValoraciones"
+
+// Historia 7 · Panel del coordinador
+import { Tutores, Suspender, Usuarios, Tablero } from "./pages/historia7/Historia7"
 
 export default function App(){
     return <BrowserRouter>
@@ -92,7 +99,24 @@ export default function App(){
                 <Route path="/tutor/sesiones" element={ <ConRol pagina={HistorialSesiones}/> } />
             </Route>
 
-            {/* ===== Historias 6 y 7: aquí van las rutas de los demás ===== */}
+            {/* ===== Historia 6 ===== */}
+            {/* LayoutValoraciones da a estas páginas los datos de ValoracionesProvider */}
+            <Route element={ <LayoutValoraciones/> }>
+                <Route path="/mis-calificaciones" element={ <MisCalificaciones/> } />
+                <Route path="/calificar-sesion/:sesionId" element={ <CalificarSesion/> } />
+                <Route path="/editar-calificacion/:calificacionId" element={ <CalificarSesion/> } />
+                <Route path="/valoraciones-tutor/:tutorId" element={ <ValoracionesTutor/> } />
+                <Route path="/ranking-tutores" element={ <RankingTutores/> } />
+            </Route>
+            {/* "Ver reseñas" de la Ficha pública (Historia 2) → opiniones de Camila */}
+            <Route path="/tutores/camila-quispe/resenas" element={ <Navigate to="/valoraciones-tutor/camila" replace/> } />
+
+            {/* ===== Historia 7 ===== */}
+            <Route path="/coordinador" element={ <Navigate to="/coordinador/tutores" replace/> } />
+            <Route path="/coordinador/tutores" element={ <Tutores/> } />
+            <Route path="/coordinador/tutores/suspender" element={ <Suspender/> } />
+            <Route path="/coordinador/usuarios" element={ <Usuarios/> } />
+            <Route path="/coordinador/tablero" element={ <Tablero/> } />
 
             {/* 404: debe ir SIEMPRE al final, atrapa cualquier URL que no exista */}
             <Route path="*" element={ <NoEncontrado/> } />

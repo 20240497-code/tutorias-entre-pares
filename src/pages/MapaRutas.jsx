@@ -78,7 +78,28 @@ export default function MapaRutas() {
           </ul>
         </section>
 
-        {/* Historias 6 y 7: las agregan los demás integrantes */}
+        {/* ===== Historia 6 ===== */}
+        <section className="bg-surface border border-border rounded-lg shadow-card p-6">
+          <h2 className="text-xl font-bold mb-4">Historia 6 · Valoraciones</h2>
+          <ul className="flex flex-col gap-2 text-[15px]">
+            <li><Link to="/calificar-sesion/TU-2026-0184" className="text-primary font-semibold hover:underline">6.1 Calificar al tutor</Link></li>
+            <li><Link to="/valoraciones-tutor/camila" className="text-primary font-semibold hover:underline">6.2 Reseñas en la ficha del tutor</Link></li>
+            <li><Link to="/mis-calificaciones" className="text-primary font-semibold hover:underline">6.3 Mis calificaciones</Link></li>
+            <li className="pl-6"><Link to="/mis-calificaciones?vista=pendientes" className="text-primary hover:underline">· Sesiones sin calificar</Link></li>
+            <li><Link to="/ranking-tutores" className="text-primary font-semibold hover:underline">6.4 Ranking de tutores por curso</Link></li>
+          </ul>
+        </section>
+
+        {/* ===== Historia 7 ===== */}
+        <section className="bg-surface border border-border rounded-lg shadow-card p-6">
+          <h2 className="text-xl font-bold mb-4">Historia 7 · Panel del coordinador</h2>
+          <ul className="flex flex-col gap-2 text-[15px]">
+            <li><Link to="/coordinador/tutores" className="text-primary font-semibold hover:underline">7.1 Listado de tutores</Link></li>
+            <li><Link to="/coordinador/tutores/suspender" className="text-primary font-semibold hover:underline">7.2 Modal · suspender tutor</Link></li>
+            <li><Link to="/coordinador/usuarios" className="text-primary font-semibold hover:underline">7.3 Gestión de usuarios</Link></li>
+            <li><Link to="/coordinador/tablero" className="text-primary font-semibold hover:underline">7.4 Tablero de métricas del programa</Link></li>
+          </ul>
+        </section>
       </div>
     </div>
   );

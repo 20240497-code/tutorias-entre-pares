@@ -19,4 +19,12 @@
 
   /* Sombra de tarjeta del sistema de diseño → clase "shadow-card" */
   --shadow-card: 0 1px 4px rgba(28, 27, 46, .08);
+
+  /* Nombres que usa la Historia 7 (mismos colores del PDF, otro nombre) */
+  --color-dark: #2B2670;
+  --color-soft: #EAE8F7;
+  --color-page: #FAFAFD;
+  --color-line: #E2E1EC;
+  --color-ink: #1C1B2E;
+  --color-muted: #6E6C82;
 }

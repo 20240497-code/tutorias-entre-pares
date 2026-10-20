@@ -138,7 +138,7 @@ export function MisSesiones() {
             <span className="text-sm text-slate-500">{sesion.fecha} · {sesion.horario}</span>
             <Estado texto={sesion.estado} />
             {sesion.extra === 'Calificar' ? (
-              <span className="bg-amber-400 text-slate-900 text-sm font-bold rounded-lg px-4 py-2">Calificar</span>
+              <Link to="/mis-calificaciones?vista=pendientes" className="bg-amber-400 text-slate-900 text-sm font-bold rounded-lg px-4 py-2">Calificar</Link>
             ) : (
               <span className="text-sm text-slate-500">{sesion.extra}</span>
             )}

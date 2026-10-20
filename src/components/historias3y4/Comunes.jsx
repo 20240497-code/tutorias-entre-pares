@@ -2,62 +2,67 @@ import { Link } from 'react-router-dom'
 
 export function Cabecera({ rol = 'estudiante', activo = 'directorio' }) {
   const tutor = rol === 'tutor'
-  const enlaceBase = 'py-2 text-sm text-slate-500 hover:text-indigo-800'
-  const enlaceActivo = 'font-bold text-indigo-800 border-b-2 border-indigo-800'
+  // Mismo diseño de cabecera que el resto del proyecto (76 px, 56 px de margen, activo subrayado)
+  const enlaceBase = 'h-full flex items-center border-b-2 border-transparent text-[15px] text-text-muted hover:text-text'
+  const enlaceActivo = 'h-full flex items-center border-b-2 border-primary text-[15px] text-primary font-semibold'
 
   return (
-    <header className="flex flex-wrap items-center gap-5 bg-white border-b border-slate-200 px-6 py-4 lg:px-10">
-      <Link to="/directorio" className="text-xl font-extrabold text-indigo-800 whitespace-nowrap">
-        Tutorías entre pares
-      </Link>
+    <header className="h-19 px-14 shrink-0 flex items-center justify-between bg-surface border-b border-border">
+      <div className="flex items-center gap-10 h-full">
+        <Link to="/directorio" className="text-xl font-bold text-primary whitespace-nowrap">
+          Tutorías entre pares
+        </Link>
 
-      <nav className="flex flex-wrap items-center gap-5 text-sm" aria-label="Navegación principal">
-        {tutor ? (
-          <>
-            <Link to="/tutor/perfil" className={enlaceBase}>Mi perfil de tutor</Link>
-            <Link to="/tutor/cursos" className={enlaceBase}>Mis cursos</Link>
-            <Link to="/tutor/disponibilidad" className={enlaceBase}>Disponibilidad</Link>
-            <Link to="/solicitudes" className={`${enlaceBase} ${activo === 'solicitudes' ? enlaceActivo : ''}`}>
-              Solicitudes
-            </Link>
-            <Link to="/historial-sesiones" className={`${enlaceBase} ${activo === 'mis-sesiones' ? enlaceActivo : ''}`}>
-              Mis sesiones
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link to="/directorio" className={`${enlaceBase} ${activo === 'directorio' ? enlaceActivo : ''}`}>
-              Directorio
-            </Link>
-            <Link to="/mis-sesiones" className={`${enlaceBase} ${activo === 'mis-sesiones' ? enlaceActivo : ''}`}>
-              Mis sesiones
-            </Link>
-            <Link to="/mis-calificaciones" className={enlaceBase}>Mis calificaciones</Link>
-          </>
-        )}
-      </nav>
+        <nav className="flex items-center gap-8 h-full" aria-label="Navegación principal">
+          {tutor ? (
+            <>
+              <Link to="/tutor/perfil" className={enlaceBase}>Mi perfil de tutor</Link>
+              <Link to="/tutor/cursos" className={enlaceBase}>Mis cursos</Link>
+              <Link to="/tutor/disponibilidad" className={enlaceBase}>Disponibilidad</Link>
+              <Link to="/solicitudes" className={activo === 'solicitudes' ? enlaceActivo : enlaceBase}>
+                Solicitudes
+              </Link>
+              <Link to="/historial-sesiones" className={activo === 'mis-sesiones' ? enlaceActivo : enlaceBase}>
+                Mis sesiones
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/directorio" className={activo === 'directorio' ? enlaceActivo : enlaceBase}>
+                Directorio
+              </Link>
+              <Link to="/mis-sesiones" className={activo === 'mis-sesiones' ? enlaceActivo : enlaceBase}>
+                Mis sesiones
+              </Link>
+              <Link to="/mis-calificaciones" className={enlaceBase}>Mis calificaciones</Link>
+            </>
+          )}
+        </nav>
+      </div>
 
-      <div className="flex items-center gap-3 ml-auto">
-        <div className="flex gap-1 bg-violet-100 rounded-full p-1 text-sm font-bold">
+      <div className="flex items-center gap-6 h-full">
+        <div className="flex bg-primary-soft rounded-full p-1 text-sm font-semibold">
           <Link
             to="/directorio"
-            className={`px-3 py-2 rounded-full ${!tutor ? 'bg-indigo-800 text-white' : 'text-indigo-800'}`}
+            className={`px-4 py-1 rounded-full ${!tutor ? 'bg-primary text-white' : 'text-primary hover:bg-surface'}`}
           >
             Estudiante
           </Link>
           <Link
             to="/tutor/perfil"
-            className={`px-3 py-2 rounded-full ${tutor ? 'bg-green-700 text-white' : 'text-indigo-800'}`}
+            className={`px-4 py-1 rounded-full ${tutor ? 'bg-primary text-white' : 'text-primary hover:bg-surface'}`}
           >
             Tutor
           </Link>
         </div>
-        <span className="hidden sm:flex items-center justify-center w-10 h-10 bg-violet-100 rounded-full text-indigo-800 text-xs font-bold">
-          {tutor ? 'SR' : 'JM'}
-        </span>
-        <span className="hidden xl:inline text-sm text-slate-500">
-          {tutor ? 'Sebastián R.' : 'Joaquín M.'} ▾
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold">
+            {tutor ? 'SR' : 'JM'}
+          </span>
+          <span className="text-[15px] text-text">
+            {tutor ? 'Sebastián R.' : 'Joaquín M.'} ▾
+          </span>
+        </div>
       </div>
     </header>
   )
@@ -65,9 +70,9 @@ export function Cabecera({ rol = 'estudiante', activo = 'directorio' }) {
 
 export function Pie({ tutor = false }) {
   return (
-    <footer className="flex flex-wrap justify-between gap-4 items-center min-h-18 bg-slate-900 px-6 py-5 lg:px-10 text-slate-300 text-sm">
+    <footer className="h-21 px-14 shrink-0 flex items-center justify-between bg-ink text-[13px] text-white/75">
       <span>Programa de Tutorías entre Pares · Universidad de Lima</span>
-      <div className="flex flex-wrap items-center gap-6">
+      <div className="flex items-center gap-8">
         {tutor ? <span>Guía del tutor</span> : <Link to="/directorio" className="hover:text-white">Directorio</Link>}
         <span>Ayuda</span>
         {!tutor && <span>Términos del programa</span>}
@@ -81,7 +86,7 @@ export function Marco({ children, rol = 'estudiante', activo = 'directorio', cla
   return (
     <div className={`min-h-screen flex flex-col bg-slate-50 ${className === 'marco-modal-fondo' ? 'blur-sm pointer-events-none' : className}`}>
       <Cabecera rol={rol} activo={activo} />
-      <main className="w-full flex-1 px-6 py-7 lg:px-10">
+      <main className="w-full flex-1 px-14 py-7">
         {children}
       </main>
       <Pie tutor={rol === 'tutor'} />
@@ -126,9 +131,9 @@ export function PerfilSebastian({ compacto = false }) {
         </div>
       </div>
       {compacto ? (
-        <span className="border border-indigo-400 text-indigo-800 rounded-lg px-5 py-3 text-sm font-bold">
+        <Link to="/valoraciones-tutor/sebastian" className="border border-indigo-400 text-indigo-800 rounded-lg px-5 py-3 text-sm font-bold">
           Ver reseñas
-        </span>
+        </Link>
       ) : (
         <div className="text-right">
           <strong className="block text-4xl text-slate-900">4.7</strong>

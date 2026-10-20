@@ -1,0 +1,189 @@
+/*
+  Estilos de la Historia 7 (panel del coordinador).
+  Son los mismos de su estilos.css, pero cada regla empieza con .h7
+  para que SOLO afecten a sus páginas (que llevan la clase "h7" en su raíz)
+  y no cambien los botones, tablas ni headers de las demás historias.
+  Sus colores (--color-dark, --color-soft, --color-ink…) están en el @theme de App.css.
+*/
+
+.h7 {
+  margin: 0;
+  font-family: 'Source Sans 3', Arial, sans-serif;
+  color: #1C1B2E;
+  background: #FAFAFD;
+}
+
+.h7 button,
+.h7 input,
+.h7 select,
+.h7 textarea {
+  font: inherit;
+}
+
+.h7 button {
+  cursor: pointer;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.h7 button:hover {
+  transform: scale(1.04);
+  filter: brightness(0.9);
+}
+
+.h7 button:active {
+  transform: scale(0.98);
+}
+
+.h7 button:focus-visible,
+.h7 a:focus-visible,
+.h7 input:focus-visible,
+.h7 textarea:focus-visible {
+  outline: 2px solid #3B3596;
+  outline-offset: 3px;
+}
+
+.h7 header a {
+  transition: color 150ms ease;
+}
+
+.h7 header a:hover {
+  color: #E0A03A;
+}
+
+.h7 input:focus,
+.h7 textarea:focus {
+  border-color: #3B3596;
+}
+
+.h7 table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+}
+
+.h7 th {
+  font-size: 12px;
+  letter-spacing: 1.1px;
+  color: #6E6C82;
+  font-weight: 600;
+  background: #FAFAFD;
+}
+
+.h7 th,
+.h7 td {
+  padding: 13px 20px;
+  border-bottom: 1px solid #E2E1EC;
+}
+
+.h7 td {
+  font-size: 15px;
+}
+
+.h7 tbody tr:nth-child(even) {
+  background: #FAFAFD;
+}
+
+.h7 tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.h7 .usuarios th,
+.h7 .usuarios td {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.h7 .field {
+  border: 1px solid #E2E1EC;
+  background: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #6E6C82;
+  font-size: 15px;
+}
+
+.h7 .badge {
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 13px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.h7 .activo {
+  color: #1E7F4D;
+  background: #E8F5ED;
+  border-color: #1E7F4D;
+}
+
+.h7 .revision {
+  color: #B7791F;
+  background: #FFF5E4;
+  border-color: #E0A03A;
+}
+
+.h7 .suspendido {
+  color: #6E6C82;
+  background: #EFEEF4;
+  border-color: #E2E1EC;
+}
+
+.h7 .page-number {
+  display: inline-block;
+  padding: 7px 13px;
+  background: white;
+  border: 1px solid #E2E1EC;
+  border-radius: 7px;
+  color: #6E6C82;
+}
+
+.h7 .selected {
+  background: #3B3596;
+  color: white;
+}
+
+.h7 .page-number:hover {
+  background: #3B3596;
+  border-color: #3B3596;
+  color: white;
+}
+
+.h7 .bar {
+  height: 20px;
+  border-radius: 999px;
+  background: #EAE8F7;
+  overflow: hidden;
+}
+
+.h7 .bar span {
+  display: block;
+  height: 100%;
+}
+
+/* A 1920 px el lienzo coincide con las medidas del PDF. */
+.h7.screen {
+  min-width: 1100px;
+  min-height: 1080px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1100px) {
+  .h7.screen {
+    min-height: max(1080px, 100vh);
+  }
+}
+
+/* En 7.1 y 7.4 el pie sigue al contenido, con 40 px de separación. */
+.h7.screen-compact {
+  min-height: 0;
+}
+
+.h7.screen-compact footer {
+  margin-top: 0;
+}
+
+/* 7.1 ocupa al menos la ventana, sin dejar una franja debajo del pie. */
+.h7.screen-bottom {
+  min-height: 100vh;
+}
