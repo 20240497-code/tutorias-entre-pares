@@ -1,4 +1,6 @@
+import { escalaInterfaz as escala } from '../../components/compartidos/escalaInterfaz'
 import { Link } from 'react-router-dom'
+import PestanasDirectorio from '../../components/historia6/PestanasDirectorio'
 import { Marco, Avatar, Etiquetas, PerfilSebastian, Calendario } from '../../components/historias3y4/Comunes'
 
 const tutores = [
@@ -69,13 +71,14 @@ function TarjetaTutor({ tutor }) {
 export function Directorio() {
   return (
     <Marco activo="directorio">
+      <PestanasDirectorio />
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <Filtros />
         <section className="lg:col-span-3">
           <div className="flex flex-wrap justify-between items-start gap-5 mb-5">
             <div>
-              <h1 className="text-3xl font-extrabold text-slate-900 mb-2">Directorio de tutores</h1>
-              <p className="text-slate-500">10 tutores encontrados para MA101 Cálculo I, modalidad remota, lunes</p>
+              <h1 className={`${escala.tituloPantalla} text-slate-900 mb-2`}>Directorio de tutores</h1>
+              <p className={`${escala.cuerpo} text-slate-500`}>10 tutores encontrados para MA101 Cálculo I, modalidad remota, lunes</p>
             </div>
             <select className="bg-white border border-slate-200 text-sm rounded-lg px-4 py-3" defaultValue="Ordenar: mejor promedio" aria-label="Ordenar">
               <option>Ordenar: mejor promedio</option>

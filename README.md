@@ -111,7 +111,9 @@ Programación Web · Universidad de Lima · Tema 4
 | 6.3 Mis calificaciones | `/mis-calificaciones` · `?vista=pendientes` |
 | 6.4 Ranking de tutores por curso | `/ranking-tutores` |
 
-> La Historia 6 guarda las calificaciones en el navegador (`localStorage`): lo que publiques o elimines se mantiene al recargar.
+> La Historia 6 presenta mockups con datos estáticos: no guarda, edita ni elimina calificaciones. Las estrellas del modal tienen hover visual, el comentario admite escritura sin persistencia y la X vuelve a Mis sesiones. El parámetro `?vista=pendientes` permite revisar la variante vacía del listado.
+>
+> Ver el [informe de correcciones de interfaz](docs/INFORME_CORRECCIONES.md) para conocer los cambios, las rutas y las verificaciones realizadas.
 
 ### Historia 7 · Panel del coordinador
 
@@ -151,9 +153,9 @@ src/
 │   ├── historia2/       estado vacío y pestañas de disponibilidad
 │   ├── historias3y4/    Comunes.jsx (marco, cabecera, calendario…) de las Historias 3 y 4
 │   ├── historia5/       Comunes.jsx + RolCompartido.jsx (rol Estudiante / Tutor)
-│   ├── historia6/       Comunes.jsx, Valoraciones.jsx + LayoutValoraciones.jsx (datos compartidos)
+│   ├── historia6/       Comunes.jsx, Valoraciones.jsx, PestanasDirectorio.jsx + LayoutValoraciones.jsx (interfaz estática)
 │   └── historia7/       Compartidos.jsx (cabecera del coordinador) + estilos-h7.css
-├── contexto/            ValoracionesContext.jsx (Historia 6)
+├── contexto/            ValoracionesContext.jsx (conservado; desconectado de las vistas HU6)
 ├── datos/               datosHU6.js (Historia 6)
 ├── servicios/           valoraciones.js (Historia 6)
 └── pages/

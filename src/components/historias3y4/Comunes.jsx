@@ -1,3 +1,4 @@
+import { escalaInterfaz as escala } from '../compartidos/escalaInterfaz'
 import { Link } from 'react-router-dom'
 
 export function Cabecera({ rol = 'estudiante', activo = 'directorio' }) {
@@ -34,7 +35,7 @@ export function Cabecera({ rol = 'estudiante', activo = 'directorio' }) {
               <Link to="/mis-sesiones" className={activo === 'mis-sesiones' ? enlaceActivo : enlaceBase}>
                 Mis sesiones
               </Link>
-              <Link to="/mis-calificaciones" className={enlaceBase}>Mis calificaciones</Link>
+              <Link to="/mis-calificaciones" className={activo === 'mis-calificaciones' ? enlaceActivo : enlaceBase}>Mis calificaciones</Link>
             </>
           )}
         </nav>
@@ -101,7 +102,7 @@ export function Avatar({ size = '' }) {
     'avatar-pequeno': 'w-12 h-12',
   }
   return (
-    <span className={`inline-block shrink-0 rounded-full bg-violet-100 ${tamanos[size] || 'w-14 h-14'}`} aria-hidden="true" />
+    <span className={`inline-block shrink-0 rounded-full bg-violet-100 ${tamanos[size] || escala.avatarLista}`} aria-hidden="true" />
   )
 }
 

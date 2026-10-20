@@ -1,59 +1,32 @@
-import { Link } from 'react-router-dom'
+import { escalaInterfaz as escala } from '../compartidos/escalaInterfaz'
 import { Marco } from './Comunes'
-import { useValoraciones } from '../../contexto/ValoracionesContext'
 
-export const claseTarjeta = 'bg-white border border-slate-300 rounded-lg shadow-sm p-5 md:p-6'
-export const claseBoton = 'inline-flex items-center justify-center bg-indigo-800 hover:bg-indigo-900 text-white rounded-lg px-5 py-3 text-sm font-bold transition-colors'
-export const claseSecundario = 'inline-flex items-center justify-center border border-indigo-400 text-indigo-800 hover:bg-violet-50 rounded-lg px-4 py-2 text-sm font-bold transition-colors'
-export const claseSelect = 'w-full bg-white border border-slate-200 text-slate-900 rounded-lg px-3 py-3 text-sm'
+const separaciones = { 1: 'gap-px', 2: 'gap-0.5', 3: 'gap-0.75', 4: 'gap-1', 5: 'gap-1.25', 6: 'gap-1.5', 14: 'gap-3.5' }
 
-export function VistaHU6({ children, activo = 'mis-calificaciones' }) {
-  const { mensaje, setMensaje } = useValoraciones()
-  return (
-    <Marco activo={activo}>
-      <div className="max-w-7xl mx-auto">
-        {mensaje && (
-          <div role="status" className="flex items-start justify-between gap-4 mb-5 bg-green-50 text-green-800 border border-green-300 rounded-lg p-4 text-sm">
-            <p>{mensaje}</p>
-            <button type="button" onClick={() => setMensaje('')} aria-label="Cerrar notificación" className="font-bold px-1">×</button>
-          </div>
-        )}
-        {children}
-      </div>
-    </Marco>
-  )
+export function VistaHU6({ children, activo, publico = false }) {
+  return <Marco activo={activo} publico={publico}>{children}</Marco>
 }
 
-export function Estrellas({ valor, grande = false }) {
-  return (
-    <span aria-label={`${valor.toFixed(1)} de 5 estrellas`} className={`inline-flex gap-0.5 ${grande ? 'text-3xl' : 'text-lg'}`}>
-      {[1, 2, 3, 4, 5].map((estrella) => <span key={estrella} aria-hidden="true" className={estrella <= Math.round(valor) ? 'text-amber-500' : 'text-slate-300'}>★</span>)}
-    </span>
-  )
+// Estrellas estáticas: los puntajes reproducen el dibujo del PDF, sin formulario.
+export function Estrellas({ valor = 5, size = 24, gap = 4 }) {
+  return <span aria-label={`${valor} de 5 estrellas`} className={`inline-flex shrink-0 items-center ${separaciones[gap] || 'gap-1'}`}>
+    {[1, 2, 3, 4, 5].map((estrella) => <svg key={estrella} aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" className={estrella <= valor ? 'text-accent' : 'text-border'}>
+      <path d="m12 2 2.8 6.7 7.2.6-5.5 4.7 1.7 7-6.2-3.8L5.8 21l1.7-7L2 9.3l7.2-.6L12 2Z" fill="currentColor" stroke="currentColor" strokeWidth=".6" strokeLinejoin="round" />
+    </svg>)}
+  </span>
 }
 
-export function CampoPuntaje({ nombre, titulo, valor, onChange, error, detalle }) {
-  return (
-    <div>
-      <label htmlFor={nombre} className="block font-bold text-slate-900 text-sm mb-1">{titulo} <span className="text-rose-700">*</span></label>
-      {detalle && <p className="text-xs text-slate-500 mb-3">{detalle}</p>}
-      <select id={nombre} value={valor} onChange={(e) => onChange(Number(e.target.value))} className={claseSelect}
-        aria-invalid={!!error} aria-describedby={error ? `${nombre}-error` : undefined}>
-        <option value="0">Selecciona de 1 a 5</option>
-        {[1, 2, 3, 4, 5].map((puntaje) => <option key={puntaje} value={puntaje}>{puntaje} / 5</option>)}
-      </select>
-      {error && <p id={`${nombre}-error`} className="text-xs text-rose-700 mt-2">{error}</p>}
-    </div>
-  )
+export function FiltroVisual({ children, etiqueta }) {
+  return <button type="button" aria-label={etiqueta} className={`${escala.control} inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap text-text`}>
+    {children}<span aria-hidden="true" className="text-xs">▾</span>
+  </button>
 }
 
-export function EstadoVacio({ titulo, texto, enlace, boton }) {
-  return (
-    <div className="bg-white border border-dashed border-slate-300 rounded-lg p-8 md:p-12 text-center">
-      <span aria-hidden="true" className="inline-flex items-center justify-center w-14 h-14 bg-violet-100 rounded-full text-indigo-800 text-3xl mb-4">☆</span>
-      <h2 className="text-lg font-bold text-slate-900 mb-2">{titulo}</h2>
-      <p className="text-sm text-slate-500 max-w-lg mx-auto">{texto}</p>
-      {enlace && <Link to={enlace} className={`${claseBoton} mt-5`}>{boton}</Link>}
-    </div>
-  )
+export function EstadoVacio() {
+  return <section aria-label="Listado de calificaciones vacío" className="flex min-h-75 flex-col items-center justify-center rounded-xl border border-border bg-white px-6 py-6 text-center">
+    <span aria-hidden="true" className="mb-3 flex size-16 items-center justify-center rounded-full bg-primary-soft"><svg width="32" height="32" viewBox="0 0 24 24" className="text-accent"><path d="m12 2 2.8 6.7 7.2.6-5.5 4.7 1.7 7-6.2-3.8L5.8 21l1.7-7L2 9.3l7.2-.6L12 2Z" fill="currentColor" /></svg></span>
+    <h2 className={escala.tituloSeccion}>Todavía no calificas ninguna sesión</h2>
+    <p className={`${escala.cuerpo} mt-2 text-text-muted`}>Cuando una sesión se cierre como realizada podrás calificar al tutor.</p>
+    <a href="/mis-sesiones" className={`${escala.botonPrimario} mt-5`}>Ver mis sesiones</a>
+  </section>
 }

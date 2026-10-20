@@ -1,102 +1,60 @@
-import { useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { escalaInterfaz as escala } from '../../components/compartidos/escalaInterfaz'
+import { Link } from 'react-router-dom'
 import { Avatar } from '../../components/historia6/Comunes'
-import { VistaHU6, CampoPuntaje, EstadoVacio, claseTarjeta, claseBoton, claseSecundario } from '../../components/historia6/Valoraciones'
-import { useValoraciones } from '../../contexto/ValoracionesContext'
-import { fechaCorta, fechaConHora, fechaLimite, motivoBloqueo, nombreCurso } from '../../servicios/valoraciones'
+import { VistaHU6 } from '../../components/historia6/Valoraciones'
 
-// El formulario se reutiliza para registrar y editar; no hay dos reglas distintas.
-function Formulario({ sesion, calificacion }) {
-  const { tutores, cursos, guardarCalificacion, setMensaje } = useValoraciones()
-  const navegar = useNavigate()
-  const tutor = tutores.find((item) => item.id === sesion.tutorId)
-  const [valores, setValores] = useState({
-    general: calificacion?.general || 0, claridad: calificacion?.claridad || 0,
-    puntualidad: calificacion?.puntualidad || 0, dominio: calificacion?.dominio || 0,
-    comentario: calificacion?.comentario || '',
-  })
-  const [errores, setErrores] = useState({})
-  const [error, setError] = useState('')
+const comentario = 'Explicó con calma y me dejó ejercicios para practicar. Llegó cinco minutos tarde, nada grave.'
 
-  function cambiar(campo, valor) {
-    setValores((anteriores) => ({ ...anteriores, [campo]: valor }))
-    setErrores((anteriores) => ({ ...anteriores, [campo]: '' }))
-    setError('')
-  }
-  function guardar(evento) {
-    evento.preventDefault()
-    // guardarCalificacion valida los campos y también los permisos y el plazo.
-    const resultado = guardarCalificacion(sesion.id, valores, calificacion?.id)
-    if (!resultado.ok) {
-      setErrores(resultado.errores || {})
-      setError(resultado.mensaje)
-      return
-    }
-    navegar('/mis-calificaciones')
-  }
-
-  return (
-    <>
-      <div className="text-sm text-slate-500 mb-4"><Link to="/mis-calificaciones" className="hover:text-indigo-800">Mis calificaciones</Link> › {calificacion ? 'Editar' : 'Calificar sesión'}</div>
-      <h1 className="text-3xl font-extrabold mb-2">{calificacion ? 'Editar calificación' : 'Calificar al tutor'}</h1>
-      <p className="text-sm text-slate-500 mb-6">Tu opinión ayuda a mejorar las tutorías entre pares.</p>
-      <div className="grid lg:grid-cols-3 gap-6 items-start">
-        <form noValidate onSubmit={guardar} className={`${claseTarjeta} lg:col-span-2 space-y-6`}>
-          <div className="flex items-center gap-4 pb-5 border-b border-slate-100">
-            <Avatar />
-            <div><h2 className="text-lg font-bold">{tutor.nombre}</h2><p className="text-sm text-slate-500">{nombreCurso(cursos, sesion.cursoId)}</p></div>
-          </div>
-          <CampoPuntaje nombre="general" titulo="Puntaje general" detalle="¿Cómo fue tu experiencia en esta sesión? 1 es muy mala y 5 es excelente." valor={valores.general} onChange={(valor) => cambiar('general', valor)} error={errores.general} />
-          <div className="border-t border-slate-100 pt-5 space-y-5">
-            <h2 className="text-lg font-bold text-indigo-800">Calificación por aspectos</h2>
-            {[
-              ['claridad', 'Claridad', 'Explicó los conceptos de una forma comprensible.'],
-              ['puntualidad', 'Puntualidad', 'Respetó el horario acordado.'],
-              ['dominio', 'Dominio del tema', 'Demostró conocimiento y resolvió tus dudas.'],
-            ].map(([campo, titulo, detalle]) => <CampoPuntaje key={campo} nombre={campo} titulo={titulo} detalle={detalle} valor={valores[campo]} onChange={(valor) => cambiar(campo, valor)} error={errores[campo]} />)}
-          </div>
-          <div>
-            <label htmlFor="comentario" className="block text-sm font-bold mb-2">Comentario <span className="text-rose-700">*</span></label>
-            <textarea id="comentario" rows="4" maxLength="500" value={valores.comentario} onChange={(e) => cambiar('comentario', e.target.value)}
-              placeholder="Cuéntanos qué te ayudó y qué se podría mejorar…" aria-invalid={!!errores.comentario}
-              aria-describedby={errores.comentario ? 'comentario-error comentario-ayuda' : 'comentario-ayuda'}
-              className={`w-full border rounded-lg px-4 py-3 text-sm resize-y ${errores.comentario ? 'border-rose-600' : 'border-slate-200'}`} />
-            <div id="comentario-ayuda" className="flex justify-between gap-4 text-xs text-slate-500 mt-2"><span>Se publicará en la ficha del tutor con tu nombre.</span><span className="shrink-0">{valores.comentario.length}/500</span></div>
-            {errores.comentario && <p id="comentario-error" className="text-xs text-rose-700 mt-2">{errores.comentario}</p>}
-          </div>
-          {error && <p role="alert" className="text-rose-700 text-sm">{error}</p>}
-          <div className="flex flex-wrap justify-end gap-3 pt-5 border-t border-slate-100">
-            <Link to="/mis-calificaciones" onClick={() => setMensaje('')} className={claseSecundario}>Cancelar</Link>
-            <button type="submit" className={claseBoton}>{calificacion ? 'Guardar cambios' : 'Publicar calificación'}</button>
-          </div>
-        </form>
-        <aside className="space-y-4">
-          <section className={claseTarjeta}>
-            <h2 className="font-bold text-indigo-800 mb-4">Datos de la sesión</h2>
-            <dl className="space-y-3 text-sm">
-              <div><dt className="text-slate-500 text-xs">Código</dt><dd className="font-bold mt-1">{sesion.id}</dd></div>
-              <div><dt className="text-slate-500 text-xs">Fecha</dt><dd className="mt-1">{fechaCorta(sesion.fecha)}</dd></div>
-              <div><dt className="text-slate-500 text-xs">Estado</dt><dd className="text-green-700 font-bold mt-1">Realizada</dd></div>
-              <div><dt className="text-slate-500 text-xs">Plazo para publicar y editar</dt><dd className="mt-1">Hasta el {fechaConHora(fechaLimite(sesion))}</dd></div>
-            </dl>
-          </section>
-          <p className="text-sm text-slate-500 leading-relaxed">Puedes registrar una sola calificación por sesión. El plazo de 7 días se cuenta desde el cierre y se mantiene aunque edites o elimines tu opinión.</p>
-        </aside>
-      </div>
-    </>
-  )
+// Vista previa con selectores CSS: no guarda ni procesa el puntaje.
+function EstrellasHover({ valor, nombre, grande = false }) {
+  return <span role="group" aria-label={nombre} className={`inline-flex shrink-0 flex-row-reverse items-center [&:has(button:hover)>button]:text-border [&:has(button:focus-visible)>button]:text-border ${grande ? 'gap-2' : 'gap-1'}`}>
+    {[5, 4, 3, 2, 1].map((puntaje) => <button key={puntaje} type="button" aria-label={`${nombre}: ${puntaje} de 5`} className={`cursor-pointer rounded-sm transition-colors duration-150 hover:text-accent! [&:hover~button]:text-accent! focus-visible:text-accent! [&:focus-visible~button]:text-accent! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${puntaje <= valor ? 'text-accent' : 'text-border'}`}>
+      <svg aria-hidden="true" width={grande ? 32 : 20} height={grande ? 32 : 20} viewBox="0 0 24 24"><path d="m12 2 2.8 6.7 7.2.6-5.5 4.7 1.7 7-6.2-3.8L5.8 21l1.7-7L2 9.3l7.2-.6L12 2Z" fill="currentColor" stroke="currentColor" strokeWidth=".6" strokeLinejoin="round" /></svg>
+    </button>)}
+  </span>
 }
 
 export default function CalificarSesion() {
-  const { sesionId, calificacionId } = useParams()
-  const { usuario, sesiones, calificaciones } = useValoraciones()
-  const calificacion = calificacionId ? calificaciones.find((item) => item.id === calificacionId) : null
-  const sesion = sesiones.find((item) => item.id === (calificacionId ? calificacion?.sesionId : sesionId))
-  let bloqueo = motivoBloqueo(sesion, usuario)
-  if (calificacionId && !calificacion) bloqueo = 'Esta calificación no existe o ya fue eliminada.'
-  if (calificacion && calificacion.estudianteId !== usuario.id) bloqueo = 'Solo puedes editar las calificaciones que has emitido.'
-  const existente = !calificacionId && calificaciones.find((item) => item.sesionId === sesionId && item.estudianteId === usuario.id)
-  if (bloqueo) return <VistaHU6><EstadoVacio titulo="No puedes calificar esta sesión" texto={bloqueo} enlace="/mis-calificaciones?vista=pendientes" boton="Volver a mis sesiones" /></VistaHU6>
-  if (existente) return <VistaHU6><EstadoVacio titulo="Esta sesión ya está calificada" texto="Solo se permite una calificación por sesión. Puedes editar la que ya publicaste dentro del plazo." enlace={`/editar-calificacion/${existente.id}`} boton="Editar mi calificación" /></VistaHU6>
-  return <VistaHU6><Formulario key={calificacion?.id || sesion.id} sesion={sesion} calificacion={calificacion} /></VistaHU6>
+  return <VistaHU6 activo="mis-sesiones">
+    <div className="select-none" aria-hidden="true" inert>
+      <h1 className={`${escala.tituloPantalla} mb-6`}>Mis sesiones</h1>
+      <div className="grid gap-4">
+        {[
+          ['Camila Quispe Andrade', 'ES210 Estadística Aplicada · 05/09/2026'],
+          ['Diego Huamán Salcedo', 'EC201 Microeconomía · 02/09/2026'],
+        ].map(([nombre, curso]) => <div key={nombre} className="flex h-24 items-center gap-6 rounded-xl border border-border bg-white px-6">
+          <Avatar /><div><h2 className={escala.subtitulo}>{nombre}</h2><p className={`${escala.cuerpo} text-text-muted`}>{curso}</p></div>
+          <span className="ml-auto rounded-full border border-success/25 bg-success/10 px-4 py-1.5 text-base font-semibold text-success">Realizada</span>
+        </div>)}
+      </div>
+    </div>
+    <div className="absolute inset-0 z-10 bg-ink/45 backdrop-blur-[2px]" />
+    <div className="absolute inset-0 z-20 flex items-center justify-center overflow-y-auto px-4 py-8">
+      <section role="dialog" aria-modal="true" aria-labelledby="calificar-titulo" className="my-auto w-full translate-y-[3px] max-w-160 rounded-2xl bg-white p-6 shadow-[0_24px_80px_rgba(28,27,46,0.25)] sm:p-8">
+        <div className="mb-[18px] flex items-center justify-between">
+          <h2 id="calificar-titulo" className={escala.tituloPantalla}>Califica tu sesión</h2>
+          <Link to="/mis-sesiones" aria-label="Cerrar" className="flex size-8 items-center justify-center text-text-muted"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19" stroke="currentColor" strokeWidth="2" /></svg></Link>
+        </div>
+        <div className="flex min-h-20 items-center gap-4 rounded-lg border border-border bg-bg p-4">
+          <Avatar />
+          <div><h3 className={escala.subtitulo}>Camila Quispe Andrade</h3><p className={`${escala.cuerpo} mt-1 text-text-muted`}>ES210 Estadística Aplicada · 05/09/2026 · 17:00 a 18:00</p></div>
+        </div>
+        <div className="mt-5 mb-[18px] flex flex-col items-center">
+          <h3 className="text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">PUNTAJE GENERAL</h3>
+          <div className="mt-2"><EstrellasHover valor={4} nombre="Puntaje general" grande /></div>
+          <p className={`${escala.cuerpo} mt-2 text-text-muted`}>4 de 5 — muy buena</p>
+        </div>
+        <dl className={`${escala.cuerpo} mb-5 space-y-3`}>
+          {[['Claridad', 5], ['Puntualidad', 4], ['Dominio del tema', 5]].map(([nombre, puntaje]) => <div key={nombre} className="flex items-center justify-between gap-4"><dt>{nombre}</dt><dd className="flex items-center"><EstrellasHover valor={puntaje} nombre={nombre} /></dd></div>)}
+        </dl>
+        <label htmlFor="comentario-hu6" className="block text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">COMENTARIO</label>
+        <textarea id="comentario-hu6" defaultValue={comentario} className="mt-1.5 block h-24 w-full resize-none rounded-lg border border-border bg-white px-4 py-3 text-[15px] leading-[22px]" />
+        <p className={`${escala.auxiliar} mt-1 text-text-muted`}>Tu comentario será visible en la ficha del tutor con tu nombre.</p>
+        <div className="mt-5 flex items-center justify-end gap-7">
+          <button type="button" className={`${escala.cuerpo} font-semibold text-primary`}>Más tarde</button>
+          <button type="button" className={escala.botonPrimario}>Enviar calificación</button>
+        </div>
+      </section>
+    </div>
+  </VistaHU6>
 }

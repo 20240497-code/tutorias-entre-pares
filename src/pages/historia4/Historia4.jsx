@@ -1,3 +1,4 @@
+import { escalaInterfaz as escala } from '../../components/compartidos/escalaInterfaz'
 import { Link } from 'react-router-dom'
 import { Marco, Avatar, Calendario, PerfilSebastian } from '../../components/historias3y4/Comunes'
 
@@ -92,14 +93,14 @@ export function MisSesiones() {
     <Marco activo="mis-sesiones">
       <div className="flex flex-wrap justify-between items-start gap-5 mb-5">
         <div>
-          <h1 className="text-3xl font-extrabold mb-2">Mis sesiones</h1>
-          <p className="text-slate-500">3 próximas · 5 en el historial</p>
+          <h1 className={`${escala.tituloPantalla} mb-2`}>Mis sesiones</h1>
+          <p className={`${escala.cuerpo} text-slate-500`}>3 próximas · 5 en el historial</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <select className="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm" defaultValue="Estado: todos" aria-label="Filtrar por estado">
+          <select className={escala.control} defaultValue="Estado: todos" aria-label="Filtrar por estado">
             <option>Estado: todos</option>
           </select>
-          <span className="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm">01/09/2026 — 30/09/2026</span>
+          <span className={escala.control}>01/09/2026 — 30/09/2026</span>
         </div>
       </div>
 
@@ -109,8 +110,8 @@ export function MisSesiones() {
           <article key={sesion.nombre} className="flex flex-wrap items-center gap-5 bg-white border border-slate-300 rounded-lg shadow-sm px-5 py-4">
             <Avatar />
             <div className="flex-1 min-w-40">
-              <h3 className="text-lg font-bold mb-1">{sesion.nombre}</h3>
-              <p className="text-sm text-slate-500">{sesion.curso} · «{sesion.tema}» · {sesion.modalidad}</p>
+              <h3 className={`${escala.subtitulo} mb-1`}>{sesion.nombre}</h3>
+              <p className={`${escala.auxiliar} text-slate-500`}>{sesion.curso} · «{sesion.tema}» · {sesion.modalidad}</p>
             </div>
             <div className="flex flex-col items-end gap-1 text-sm">
               <b>{sesion.fecha}</b>
@@ -118,9 +119,9 @@ export function MisSesiones() {
             </div>
             <Estado texto={sesion.estado} />
             {sesion.enlace ? (
-              <Link to={sesion.enlace} className="border border-indigo-400 text-indigo-800 text-sm font-bold rounded-lg px-5 py-3">Ver detalle</Link>
+              <Link to={sesion.enlace} className={escala.botonSecundario}>Ver detalle</Link>
             ) : (
-              <span className="bg-indigo-800 text-white text-sm font-bold rounded-lg px-5 py-3">Revisar propuesta</span>
+              <span className={escala.botonPrimario}>Revisar propuesta</span>
             )}
           </article>
         ))}
@@ -130,10 +131,10 @@ export function MisSesiones() {
       <div className="grid gap-3">
         {anteriores.map((sesion) => (
           <article key={sesion.nombre} className="flex flex-wrap items-center gap-4 bg-white border border-slate-300 rounded-lg px-5 py-3">
-            <Avatar size="avatar-pequeno" />
+            <Avatar />
             <div className="flex-1 min-w-40">
-              <h3 className="text-base font-bold mb-1">{sesion.nombre}</h3>
-              <p className="text-sm text-slate-500">{sesion.curso} · «{sesion.tema}»</p>
+              <h3 className={`${escala.subtitulo} mb-1`}>{sesion.nombre}</h3>
+              <p className={`${escala.auxiliar} text-slate-500`}>{sesion.curso} · «{sesion.tema}»</p>
             </div>
             <span className="text-sm text-slate-500">{sesion.fecha} · {sesion.horario}</span>
             <Estado texto={sesion.estado} />
@@ -154,7 +155,7 @@ export function Solicitudes() {
     <Marco rol="tutor" activo="solicitudes">
       <div className="flex flex-wrap justify-between items-start gap-5 mb-5">
         <div>
-          <h1 className="text-3xl font-extrabold mb-2">Solicitudes recibidas</h1>
+          <h1 className={`${escala.tituloPantalla} mb-2`}>Solicitudes recibidas</h1>
           <p className="text-slate-500">Responde en menos de 48 horas para mantener tu ficha publicada.</p>
         </div>
         <div className="flex gap-3">

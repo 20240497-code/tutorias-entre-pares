@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Evita saltos horizontales entre páginas con y sin scroll vertical. */
+html {
+  scrollbar-gutter: stable;
+}
+
 @theme {
   --font-sans: "Source Sans 3", sans-serif;
 
