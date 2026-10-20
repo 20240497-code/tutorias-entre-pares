@@ -1,94 +1,50 @@
-import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Avatar, Etiquetas } from '../../components/historia6/Comunes'
-import { VistaHU6, Estrellas, EstadoVacio, claseTarjeta, claseSelect, claseSecundario } from '../../components/historia6/Valoraciones'
-import { useValoraciones } from '../../contexto/ValoracionesContext'
-import { fechaCorta, nombreCurso, obtenerResumen } from '../../servicios/valoraciones'
+import { escalaInterfaz as escala } from '../../components/compartidos/escalaInterfaz'
+import { Link } from 'react-router-dom'
+import { Avatar } from '../../components/historia6/Comunes'
+import { Estrellas, FiltroVisual, VistaHU6 } from '../../components/historia6/Valoraciones'
 
-// Se puede insertar directamente <ResenasTutor tutorId={id} /> en DetalleTutor (HU-2/3).
-export function ResenasTutor({ tutorId }) {
-  const { calificaciones, cursos } = useValoraciones()
-  const [puntaje, setPuntaje] = useState('')
-  const opiniones = calificaciones.filter((item) => item.tutorId === tutorId)
-  const resumen = obtenerResumen(opiniones)
-  const visibles = opiniones.filter((item) => !puntaje || item.general === Number(puntaje))
-    .sort((a, b) => b.creadaEn.localeCompare(a.creadaEn))
-  return (
-    <section aria-label="Valoraciones del tutor" className="space-y-6">
-      <div className="grid lg:grid-cols-3 gap-5">
-        <div className={`${claseTarjeta} text-center`}>
-          <h2 className="font-bold text-indigo-800 mb-4">Promedio general</h2>
-          <strong className="text-5xl text-slate-900 block mb-2">{resumen.total ? resumen.promedio.toFixed(1) : '—'}</strong>
-          <Estrellas valor={resumen.promedio} grande />
-          <p className="text-sm text-slate-500 mt-2">{resumen.total} {resumen.total === 1 ? 'calificación' : 'calificaciones'} · sobre 5</p>
-          <div className="text-left mt-5 pt-4 border-t border-slate-100 space-y-3">
-            {[['Claridad', resumen.claridad], ['Puntualidad', resumen.puntualidad], ['Dominio del tema', resumen.dominio]].map(([texto, valor]) => (
-              <div className="flex justify-between text-sm gap-3" key={texto}><span className="text-slate-500">{texto}</span><b>{resumen.total ? `${valor.toFixed(1)} / 5` : '—'}</b></div>
-            ))}
-          </div>
-        </div>
-        <div className={`${claseTarjeta} lg:col-span-2`}>
-          <h2 className="font-bold text-indigo-800 mb-5">Distribución de calificaciones</h2>
-          <div className="space-y-4">
-            {resumen.distribucion.map(({ puntaje: puntos, cantidad }) => {
-              const porcentaje = resumen.total ? Math.round(cantidad / resumen.total * 100) : 0
-              return (
-                <div key={puntos} className="flex items-center gap-3 text-sm" aria-label={`${puntos} estrellas: ${cantidad} calificaciones, ${porcentaje}%`}>
-                  <span className="w-9 shrink-0 font-bold text-slate-600">{puntos} <span aria-hidden="true" className="text-amber-500">★</span></span>
-                  <div className="flex-1 h-3 bg-violet-100 rounded-full overflow-hidden" aria-hidden="true"><div className="h-full bg-indigo-800 rounded-full" style={{ width: `${porcentaje}%` }} /></div>
-                  <span className="text-slate-500 w-22 text-right">{cantidad} ({porcentaje}%)</span>
-                </div>
-              )
-            })}
-          </div>
-          <p className="text-xs text-slate-500 mt-6">El promedio incluye todas las calificaciones publicadas, sin importar el filtro de la lista.</p>
+const comentarios = [
+  { nombre: 'Joaquín Medina Talledo', curso: 'MA101 Cálculo I', fecha: '05/09/2026', estrellas: 5, texto: 'Resolvió todas mis dudas de integrales y me dejó una guía para practicar antes del parcial.' },
+  { nombre: 'Daniela Ríos Camacho', curso: 'ES210 Estadística Aplicada', fecha: '26/08/2026', estrellas: 4, texto: 'Muy paciente con las pruebas de hipótesis. Me habría gustado revisar un ejercicio más de regresión.' },
+  { nombre: 'Piero Alcántara Núñez', curso: 'FI202 Física II', fecha: '29/08/2026', estrellas: 5, texto: 'Explicó circuitos con esquemas propios y quedamos con tarea para la siguiente sesión.' },
+]
+
+export function ResenasTutor() {
+  return <div className="grid items-stretch gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
+    <section aria-label="Resumen de reseñas" className="rounded-lg border border-border bg-white p-5">
+      <div className="mt-1 grid grid-cols-[120px_minmax(0,1fr)] items-center gap-6">
+        <div className="text-center"><strong className="block text-[40px] leading-12 font-bold">4.8</strong><div className="mt-1"><Estrellas size={20} gap={2} /></div><p className={`${escala.cuerpo} mt-1 text-text-muted`}>31 reseñas</p></div>
+        <div className="grid gap-3">
+          {[[5, 23, 'w-[74.2%]'], [4, 6, 'w-[19.4%]'], [3, 2, 'w-[6.5%]'], [2, 0, 'w-0'], [1, 0, 'w-0']].map(([puntaje, total, ancho]) => <div key={puntaje} className="flex items-center gap-3 text-[13px] leading-[18px] text-text-muted" aria-label={`${puntaje} estrellas: ${total} reseñas`}>
+            <span className="w-3 shrink-0">{puntaje}</span><div className="h-2 flex-1 overflow-hidden rounded-full bg-border"><div className={`h-full bg-primary ${ancho}`} /></div><span className="w-7 text-right">{total}</span>
+          </div>)}
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h2 className="text-xl font-bold text-indigo-800">Opiniones de estudiantes <span className="text-slate-500 text-sm font-normal">({visibles.length})</span></h2>
-        <div className="flex flex-wrap gap-3 w-full sm:w-auto">
-          <div className="flex-1 sm:w-44"><label className="sr-only" htmlFor="puntaje-opiniones">Filtrar por puntaje</label>
-            <select id="puntaje-opiniones" value={puntaje} onChange={(e) => setPuntaje(e.target.value)} className={claseSelect}>
-              <option value="">Todos los puntajes</option>{[5, 4, 3, 2, 1].map((item) => <option key={item} value={item}>{item} {item === 1 ? 'estrella' : 'estrellas'}</option>)}
-            </select></div>
-
-        </div>
-      </div>
-      {!visibles.length && <EstadoVacio titulo={resumen.total ? 'No hay opiniones con este puntaje' : 'Este tutor aún no tiene calificaciones'} texto={resumen.total ? 'Selecciona otro puntaje o muestra todas las opiniones.' : 'Las opiniones aparecerán cuando los estudiantes califiquen sus sesiones realizadas.'} />}
-      <div className="grid gap-4">
-        {visibles.map((opinion) => <article className={claseTarjeta} key={opinion.id}>
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div><h3 className="font-bold text-sm">{opinion.estudianteNombre}</h3><p className="text-xs text-slate-500 mt-1">{nombreCurso(cursos, opinion.cursoId)} · {fechaCorta(opinion.creadaEn)}{opinion.actualizadaEn !== opinion.creadaEn ? ' · Editada' : ''}</p></div>
-            <div className="flex items-center gap-2"><Estrellas valor={opinion.general} /><b className="text-sm">{opinion.general}.0</b></div>
-          </div>
-          <p className="text-sm text-slate-700 mt-3 whitespace-pre-wrap break-words">{opinion.comentario}</p>
-          <p className="text-xs text-slate-500 mt-3">Claridad {opinion.claridad}/5 · Puntualidad {opinion.puntualidad}/5 · Dominio {opinion.dominio}/5</p>
+      <dl className="mt-5 grid grid-cols-3 gap-2">
+        {[['Claridad', '4.9'], ['Puntualidad', '4.6'], ['Dominio', '4.9']].map(([nombre, promedio]) => <div key={nombre} className="rounded-lg border border-border bg-bg p-3"><dt className={`${escala.auxiliar} text-text-muted`}>{nombre}</dt><dd className="mt-1 text-xl leading-7 font-semibold">{promedio}</dd></div>)}
+      </dl>
+    </section>
+    <section aria-label="Comentarios de estudiantes">
+      <div className="mb-3.5 flex items-center justify-between gap-4"><h2 className={`${escala.tituloSeccion} text-primary`}>Comentarios</h2><FiltroVisual etiqueta="Filtrar reseñas por puntaje">Puntaje: todos</FiltroVisual></div>
+      <div className="grid gap-3">
+        {comentarios.map((comentario) => <article key={comentario.nombre} className="rounded-lg border border-border bg-white px-5 py-4">
+          <div className="flex items-start justify-between gap-4"><div><h3 className={escala.subtitulo}>{comentario.nombre}</h3><p className={`${escala.auxiliar} mt-1 text-text-muted`}>{comentario.curso} · {comentario.fecha}</p></div><span className="pt-1"><Estrellas valor={comentario.estrellas} size={20} gap={3} /></span></div>
+          <p className={`${escala.cuerpo} mt-3`}>{comentario.texto}</p>
         </article>)}
       </div>
+      <button type="button" className={`${escala.botonSecundario} mt-4 w-full`}>Ver las 31 reseñas</button>
     </section>
-  )
+  </div>
 }
 
 export default function ValoracionesTutor() {
-  const { tutorId } = useParams()
-  const { tutores, cursos, calificaciones } = useValoraciones()
-  const tutor = tutores.find((item) => item.id === tutorId)
-  const resumen = obtenerResumen(calificaciones.filter((item) => item.tutorId === tutorId))
-  return (
-    <VistaHU6 activo="valoraciones">
-      {!tutor ? <EstadoVacio titulo="Tutor no encontrado" texto="Revisa el enlace o consulta el ranking de tutores." enlace="/ranking-tutores" boton="Ver ranking" /> : <>
-        <div className="text-sm text-slate-500 mb-4"><Link to="/ranking-tutores" className="hover:text-indigo-800">Ranking de tutores</Link> › Ficha del tutor</div>
-        <section className="flex flex-wrap items-center justify-between gap-5 mb-5 p-6 bg-white border border-slate-300 rounded-lg shadow-sm">
-          <div className="flex flex-wrap items-center gap-5"><Avatar size="avatar-grande" /><div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2">{tutor.nombre}</h1>
-            <p className="text-sm text-slate-500 mb-3">{tutor.carrera} · {tutor.ciclo}.º ciclo · Modalidad {tutor.modalidad.toLowerCase()}</p>
-            <Etiquetas etiquetas={tutor.cursos.map((id) => nombreCurso(cursos, id))} />
-          </div></div>
-          <div className="text-right"><strong className="block text-4xl text-slate-900">{resumen.total ? resumen.promedio.toFixed(1) : '—'}</strong><span className="text-sm text-slate-500">{resumen.total} calificaciones</span></div>
-        </section>
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-5"><h2 className="text-2xl font-bold text-indigo-800">Valoraciones del tutor</h2><Link to="/mis-calificaciones?vista=pendientes" className={claseSecundario}>Calificar una sesión</Link></div>
-        <ResenasTutor key={tutorId} tutorId={tutorId} />
-      </>}
-    </VistaHU6>
-  )
+  return <VistaHU6 publico>
+    <div className={`${escala.auxiliar} mb-4 text-text-muted`}><Link to="/directorio">Directorio</Link> › Camila Quispe Andrade › Reseñas</div>
+    <section className="mb-5 flex flex-wrap items-center gap-6 rounded-lg border border-border bg-white p-6">
+      <Avatar grande />
+      <div className="flex-1"><h1 className={escala.tituloPantalla}>Camila Quispe Andrade</h1><p className={`${escala.cuerpo} mt-1 text-text-muted`}>Ing. Industrial · 8.º ciclo · MA101 · ES210 · FI202</p></div>
+      <button type="button" className={escala.botonPrimario}>Solicitar sesión</button>
+    </section>
+    <ResenasTutor />
+  </VistaHU6>
 }
