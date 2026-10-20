@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { escalaInterfaz as escala } from '../compartidos/escalaInterfaz'
 import { Marco } from './Comunes'
 
@@ -27,6 +28,6 @@ export function EstadoVacio() {
     <span aria-hidden="true" className="mb-3 flex size-16 items-center justify-center rounded-full bg-primary-soft"><svg width="32" height="32" viewBox="0 0 24 24" className="text-accent"><path d="m12 2 2.8 6.7 7.2.6-5.5 4.7 1.7 7-6.2-3.8L5.8 21l1.7-7L2 9.3l7.2-.6L12 2Z" fill="currentColor" /></svg></span>
     <h2 className={escala.tituloSeccion}>Todavía no calificas ninguna sesión</h2>
     <p className={`${escala.cuerpo} mt-2 text-text-muted`}>Cuando una sesión se cierre como realizada podrás calificar al tutor.</p>
-    <a href="/mis-sesiones" className={`${escala.botonPrimario} mt-5`}>Ver mis sesiones</a>
+    <Link to="/mis-sesiones" className={`${escala.botonPrimario} mt-5`}>Ver mis sesiones</Link>
   </section>
 }
