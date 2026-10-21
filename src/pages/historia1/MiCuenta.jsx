@@ -1,86 +1,149 @@
-import { Link } from 'react-router-dom'
-import HeaderEstudiante from '../../components/compartidos/HeaderEstudiante'
-import Footer from '../../components/compartidos/Footer'
-import { escalaInterfaz as escala } from '../../components/compartidos/escalaInterfaz'
+import { Link } from "react-router-dom";
+import HeaderEstudiante from "../../components/compartidos/HeaderEstudiante";
+import Footer from "../../components/compartidos/Footer";
 
-const claseCampo = `${escala.control} w-full focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary`
-const claseEtiqueta = `${escala.etiqueta} mb-2 block tracking-[1.2px] text-text-muted`
-
-// 1.5 Mi cuenta: perfil lateral y dos paneles apilados, según el mockup oficial.
+// 1.5 Mi cuenta · ROL: ESTUDIANTE (USUARIO NORMAL)
+// Perfil lateral a la izquierda y dos paneles apilados a la derecha, según el mockup.
 export default function MiCuenta() {
-  return <div className="flex min-h-screen flex-col bg-bg font-sans text-text">
-    <HeaderEstudiante />
-    <main className="flex-1 px-6 py-10 xl:px-14">
-      <p className={`${escala.auxiliar} mb-2 text-text-muted`}>
-        <Link to="/directorio" className="hover:text-primary">Inicio</Link> › Mi cuenta
-      </p>
-      <h1 className={`${escala.tituloPantalla} mb-10`}>Mi cuenta</h1>
+  return (
+    <div className="min-h-screen flex flex-col bg-bg font-sans text-text">
+      <HeaderEstudiante />
 
-      <div className="grid items-stretch gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
-        <aside aria-label="Perfil de la cuenta" className="rounded-lg border border-border bg-surface px-8 py-8 text-center shadow-card">
-          <div role="img" aria-label="Foto de perfil de Camila Quispe Andrade" className={`${escala.avatarPerfil} mx-auto flex items-center rounded-full border border-border bg-primary-soft text-left font-mono text-[15px] leading-[22px] text-text-muted`}>foto de<br />perfil</div>
-          <h2 className={`${escala.subtitulo} mt-4`}>Camila Quispe Andrade</h2>
-          <p className={`${escala.cuerpo} mt-3 text-text-muted`}>Ingeniería Industrial · 8.º ciclo</p>
-          <button type="button" className={`${escala.botonSecundario} mt-4`}>Cambiar fotografía</button>
-          <p className={`${escala.auxiliar} mt-3 text-text-muted`}>JPG o PNG, hasta 2 MB.</p>
-          <p className={`${escala.auxiliar} mt-6 border-t border-border pt-6 text-text-muted`}>Cuenta creada el 12/03/2026</p>
-        </aside>
+      <main className="flex-1 px-14 py-10">
+        {/* Migas de pan + título */}
+        <p className="text-[13px] leading-4.5 text-text-muted mb-2">
+          <Link to="/directorio" className="hover:text-primary">Inicio</Link> › Mi cuenta
+        </p>
+        <h1 className="text-[28px] leading-8 font-bold mb-10">Mi cuenta</h1>
 
-        <div className="min-w-0 space-y-6">
-          <section aria-labelledby="datos-cuenta" className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-            <h2 id="datos-cuenta" className={`${escala.tituloSeccion} mb-6 text-primary`}>Datos personales y de contacto</h2>
-            <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
-              <div>
-                <label htmlFor="cuenta-nombres" className={claseEtiqueta}>NOMBRES</label>
-                <input id="cuenta-nombres" type="text" autoComplete="given-name" defaultValue="Camila Andrea" className={claseCampo} />
-              </div>
-              <div>
-                <label htmlFor="cuenta-apellidos" className={claseEtiqueta}>APELLIDOS</label>
-                <input id="cuenta-apellidos" type="text" autoComplete="family-name" defaultValue="Quispe Andrade" className={claseCampo} />
-              </div>
-              <div>
-                <label htmlFor="cuenta-carrera" className={claseEtiqueta}>CARRERA</label>
-                <select id="cuenta-carrera" defaultValue="Ingeniería Industrial" className={claseCampo}>
-                  {['Ingeniería Industrial', 'Ingeniería de Sistemas', 'Ingeniería Civil', 'Administración', 'Economía', 'Contabilidad', 'Psicología'].map((carrera) => <option key={carrera}>{carrera}</option>)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="cuenta-ciclo" className={claseEtiqueta}>CICLO</label>
-                <select id="cuenta-ciclo" defaultValue="8.º" className={claseCampo}>
-                  {Array.from({ length: 10 }, (_, i) => `${i + 1}.º`).map((ciclo) => <option key={ciclo}>{ciclo}</option>)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="cuenta-correo" className={claseEtiqueta}>CORREO INSTITUCIONAL</label>
-                <input id="cuenta-correo" type="email" defaultValue="camila.quispe@aloe.ulima.edu.pe" disabled aria-describedby="cuenta-correo-ayuda" className={`${claseCampo} disabled:cursor-not-allowed disabled:bg-bg disabled:text-text-muted`} />
-                <p id="cuenta-correo-ayuda" className={`${escala.auxiliar} mt-1 text-text-muted`}>No editable.</p>
-              </div>
-              <div>
-                <label htmlFor="cuenta-celular" className={claseEtiqueta}>CELULAR</label>
-                <input id="cuenta-celular" type="tel" autoComplete="tel" defaultValue="987 654 321" className={claseCampo} />
-              </div>
-            </div>
-            <div className="mt-6 flex flex-wrap items-center justify-end gap-7">
-              <button type="button" className={`${escala.cuerpo} font-semibold text-primary`}>Descartar</button>
-              <button type="button" className={escala.botonPrimario}>Guardar cambios</button>
-            </div>
-          </section>
+        {/* 2 columnas: perfil de 400 px + el resto para los formularios */}
+        <div className="grid grid-cols-[400px_1fr] gap-6">
 
-          <section aria-labelledby="clave-cuenta" className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-            <h2 id="clave-cuenta" className={`${escala.tituloSeccion} mb-6 text-primary`}>Cambiar contraseña</h2>
-            <div className="grid gap-6 sm:grid-cols-3">
-              {[['actual', 'ACTUAL'], ['nueva', 'NUEVA'], ['confirmar', 'CONFIRMAR']].map(([id, texto]) => <div key={id}>
-                <label htmlFor={`cuenta-clave-${id}`} className={claseEtiqueta}>{texto}</label>
-                <input id={`cuenta-clave-${id}`} type="password" autoComplete={id === 'actual' ? 'current-password' : 'new-password'} defaultValue="12345678" className={claseCampo} />
-              </div>)}
+          {/* ===== Perfil lateral ===== */}
+          <aside className="rounded-lg border border-border bg-surface px-8 py-8 text-center shadow-card">
+            <div className="size-28 mx-auto flex items-center justify-center rounded-full border border-border bg-primary-soft text-center font-mono text-[15px] leading-5.5 text-text-muted">
+              foto de<br />perfil
             </div>
-            <div className="mt-5 flex justify-end">
-              <button type="button" className={escala.botonSecundario}>Actualizar contraseña</button>
-            </div>
-          </section>
+            <h2 className="text-base leading-6 font-semibold mt-4">Camila Quispe Andrade</h2>
+            <p className="text-[15px] leading-5.5 text-text-muted mt-3">Ingeniería Industrial · 8.º ciclo</p>
+            <button type="button" className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-primary px-5 py-2.5 text-[15px] leading-5.5 font-semibold text-primary">
+              Cambiar fotografía
+            </button>
+            <p className="text-[13px] leading-4.5 text-text-muted mt-3">JPG o PNG, hasta 2 MB.</p>
+            <p className="text-[13px] leading-4.5 text-text-muted mt-6 pt-6 border-t border-border">Cuenta creada el 12/03/2026</p>
+          </aside>
+
+          {/* ===== Formularios (columna derecha) ===== */}
+          <div className="min-w-0 space-y-6">
+
+            {/* Datos personales y de contacto: 6 campos en 2 columnas */}
+            <section className="rounded-lg border border-border bg-surface p-8">
+              <h2 className="text-xl leading-7 font-bold text-primary mb-6">Datos personales y de contacto</h2>
+
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">NOMBRES</label>
+                  <input type="text" defaultValue="Camila Andrea"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary" />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">APELLIDOS</label>
+                  <input type="text" defaultValue="Quispe Andrade"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary" />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">CARRERA</label>
+                  <select defaultValue="Ingeniería Industrial"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary">
+                    <option>Ingeniería Industrial</option>
+                    <option>Ingeniería de Sistemas</option>
+                    <option>Ingeniería Civil</option>
+                    <option>Administración</option>
+                    <option>Economía</option>
+                    <option>Contabilidad</option>
+                    <option>Psicología</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">CICLO</label>
+                  <select defaultValue="8.º"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary">
+                    <option>1.º</option>
+                    <option>2.º</option>
+                    <option>3.º</option>
+                    <option>4.º</option>
+                    <option>5.º</option>
+                    <option>6.º</option>
+                    <option>7.º</option>
+                    <option>8.º</option>
+                    <option>9.º</option>
+                    <option>10.º</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">CORREO INSTITUCIONAL</label>
+                  <input type="email" defaultValue="camila.quispe@aloe.ulima.edu.pe" disabled
+                    className="w-full h-11 rounded-lg border border-border bg-bg px-4 text-[15px] leading-5.5 text-text-muted cursor-not-allowed" />
+                  <p className="text-[13px] leading-4.5 text-text-muted mt-1">No editable.</p>
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">CELULAR</label>
+                  <input type="tel" defaultValue="987 654 321"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary" />
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-7">
+                <button type="button" className="text-[15px] leading-5.5 font-semibold text-primary">
+                  Descartar
+                </button>
+                <button type="button" className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-[15px] leading-5.5 font-semibold text-white hover:bg-primary-dark">
+                  Guardar cambios
+                </button>
+              </div>
+            </section>
+
+            {/* Cambiar contraseña: 3 campos en 3 columnas */}
+            <section className="rounded-lg border border-border bg-surface p-8">
+              <h2 className="text-xl leading-7 font-bold text-primary mb-6">Cambiar contraseña</h2>
+
+              <div className="grid grid-cols-3 gap-6">
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">ACTUAL</label>
+                  <input type="password" defaultValue="12345678"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary" />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">NUEVA</label>
+                  <input type="password" defaultValue="12345678"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary" />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-xs leading-4 font-semibold tracking-[1.2px] text-text-muted">CONFIRMAR</label>
+                  <input type="password" defaultValue="12345678"
+                    className="w-full h-11 rounded-lg border border-border bg-white px-4 text-[15px] leading-5.5 focus:outline-none focus:border-primary" />
+                </div>
+              </div>
+
+              <div className="mt-5 flex justify-end">
+                <button type="button" className="inline-flex min-h-11 items-center justify-center rounded-lg border border-primary px-5 py-2.5 text-[15px] leading-5.5 font-semibold text-primary hover:bg-primary-soft">
+                  Actualizar contraseña
+                </button>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
-    </main>
-    <Footer cuenta />
-  </div>
+      </main>
+
+      {/* Footer universal; "cuenta" muestra su variante de Mi cuenta (Términos del programa) */}
+      <Footer cuenta />
+    </div>
+  );
 }
